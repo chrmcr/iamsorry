@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I am sorry :<</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Fredoka', sans-serif;
+    overflow: hidden;
+}
+
+body {
+    margin: 0;
+    height: 100vh;
+    background: url('bgpink.jpeg') center/cover no-repeat;
+    position: relative;
+    animation: zoomSlow 8s ease-in-out infinite alternate;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(255, 182, 193, 0.15);
+    z-index: -1;
+}
+
+@keyframes zoomSlow {
+    from { transform: scale(1); }
+    to { transform: scale(1.05); }
+}
+
+/* AREA GAME */
+
+#gameArea {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: transparent;
+
+    background-size: 200px 200px, 200px 200px, 32px 32px, 32px 32px, cover;
+}
+
+/* KARAKTER */
+.karakter {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    background-image: url('kakqay.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    transition: 0.1s ease;
+    z-index: 10;
+    cursor: pointer;
+    user-select: none;
+
+    filter:
+        drop-shadow(0 8px 10px rgba(255, 105, 180, 0.35));
+
+    animation: float 2s ease-in-out infinite;
+}
+
+/* HATI */
+.hati {
+    position: absolute;
+    width: 38px;
+    height: 38px;
+    background-image: url('hati.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    transition: 0.25s;
+
+    filter:
+        drop-shadow(0 0 10px #ff77b7);
+
+    animation: pulse 1.6s infinite;
+}
+
+.hati:hover {
+    transform: scale(1.25) rotate(10deg);
+}
+
+/* LAYAR */
+.layar {
+    position: absolute;
+    inset: 0;
+
+    background: rgba(255, 255, 255, 0.35);
+    backdrop-filter: blur(12px);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    z-index: 99;
+    padding: 2rem;
+}
+
+.hilang {
+    display: none;
+}
+
+/* TITLE */
+.judul {
+    font-size: clamp(24px, 8vw, 28px);
+    font-family: 'Press Start 2P', cursive;
+    color: #ff4f95;
+    margin-bottom: 12px;
+    text-shadow: 0 4px 12px rgba(255, 105, 180, 0.3);
+}
+
+.image {
+    image-rendering: pixelated;
+}
+
+/* CARD */
+.cardCute {
+    background: url('box.png') center/100% 100% no-repeat;
+
+    width: 500px;
+    min-height: 320px;
+
+    padding: 100px 70px 55px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+
+    gap: 10px;
+
+    color: #333;
+}
+
+.cardCute2 {
+    background: url('box.png') center/100% 100% no-repeat;
+
+    width: 500px;
+    min-height: 420px;
+
+    padding: 180px 70px 60px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+
+    gap: 12px;
+
+    color: #333;
+}
+
+.cardCute2 h2,
+.cardCute2 p {
+    max-width: 320px;
+    line-height: 1.5;
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.cardCute,
+.cardCute2 {
+    animation: fadeUp 1s ease;
+}
+
+/* BUTTON */
+.btnCute {
+    background: url('button.png') center/100% 100% no-repeat;
+
+    width: 250px;
+    height: 58px;
+
+    border: none;
+    cursor: pointer;
+
+    font-size: 16px;
+    font-weight: bold;
+    color: #ff4f95;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: 0.15s ease;
+}
+
+
+.btnNoCute {
+    background: url('button.png') center/100% 100% no-repeat;
+
+    width: 220px;
+    height: 70px;
+
+    border: none;
+
+    color: #ff7aa8;
+
+    font-size: 16px;
+    font-weight: bold;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    transition: 0.15s ease;
+}
+
+@keyframes wiggle {
+    0%,100% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(-2deg);
+    }
+    75% {
+        transform: rotate(2deg);
+    }
+}
+
+.btnCute:hover {
+    animation: wiggle 0.3s ease;
+    transform: scale(1.05);
+}
+
+.btnNoCute:hover {
+    transform: scale(1.05);
+}
+
+.btnNoCute:active {
+    transform: scale(0.95);
+}
+
+.cardCute2 h2,
+.cardCute2 p {
+    max-width: 320px;
+    line-height: 1.5;
+}
+
+.btnCute:active {
+    transform: scale(0.95);
+}
+
+/* SCORE */
+.scoreBox {
+    background: rgba(255,255,255,0.7);
+    backdrop-filter: blur(8px);
+
+    border: 3px solid white;
+    border-radius: 999px;
+
+    padding: 12px 24px;
+
+    box-shadow:
+        0 6px 20px rgba(255, 105, 180, 0.2);
+}
+
+/* PESAN */
+#kotakPesan {
+    border-radius: 24px;
+    border: 3px solid #fff;
+
+    background: rgba(255,255,255,0.78);
+    backdrop-filter: blur(10px);
+
+    box-shadow:
+        0 10px 24px rgba(255, 105, 180, 0.2);
+}
+
+/* ANIMASI */
+@keyframes float {
+    0%,100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-6px);
+    }
+}
+
+@keyframes pulse {
+    0%,100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.12);
+    }
+}
+    </style>
+</head>
+<body>
+    <div id="gameArea">
+        <!-- Layar Awal -->
+        <div id="layarAwal" class="layar">
+            <h1 class="judul"> Selamat Datang! </h1>
+
+            <div class="cardCute">
+                <p class="text-gray-700 text-sm leading-relaxed">
+                    Ada 5 hati  tersembunyi di Padang Rumput. Bantu kumpulkan semuanya yuk! 
+                </p>
+
+                <p class="text-gray-600 mb-6 text-sm">
+                    Cari dan ambil semua hatinya yaa...
+                </p>
+
+                <button onclick="mulaiGame()" class="btnCute">
+                    Ayo Mulai
+                </button>
+            </div>
+        </div>
+
+        <!-- Info Atas -->
+        <div class="absolute top-4 left-0 right-0 text-center z-20">
+            <span class="bg-white/80 backdrop-blur-sm px-5 py-2 rounded-lg font-bold text-pink-600 shadow border-2 border-pink-300">
+                Hati: <span id="skor">0</span>/5
+            </span>
+        </div>
+
+        <!-- Pesan Muncul -->
+        <div id="kotakPesan" class="absolute bottom-6 left-1/2 -translate-x-1/2 px-6 py-3 rounded-lg shadow-xl z-30 transition-all duration-300 scale-0 opacity-0">
+            <p id="isiPesan" class="text-pink-700 font-medium"></p>
+        </div>
+
+        <!-- Layar Akhir -->
+<div id="layarAkhir" class="layar hilang">
+
+    <!-- BOX PERTAMA -->
+    <div id="boxMaaf" class="cardCute2">
+        <h2 class="text-[clamp(24px,5vw,36px)] font-bold text-pink-600 mb-3">
+            Ih Kerennyoo Dapat Semuaa 
+        </h2>
+
+        <p class="text-gray-700 text-sm leading-relaxed">
+            Kaa, maafin aku yaa klo kemaren bikin kmu kesel.
+            Aku engga suka banget klo kita marahan gini.
+        </p>
+
+        <button onclick="lanjutBox()" class="btnCute">
+            Next ➜
+        </button>
+    </div>
+
+    <!-- BOX BAIKAN -->
+    <div id="boxBaikan" class="cardCute hidden relative">
+        <h2 class="text-4xl font-bold text-pink-500 mb-4">
+            Kita baikan yaa?
+        </h2>
+
+        <div class="flex gap-1 justify-center items-center mt-2">
+            
+            <button id="btnYes" class="btnCute">
+                Iyaa
+            </button>
+
+            <button id="btnNo" class="btnCute">
+                Gak 😔
+            </button>
+
+        </div>
+
+        <p id="pesanYes"
+        class="hidden mt-6 text-pink-600 font-bold text-2xl animate-bounce">
+            YEAYYY KITA BAIKANN
+        </p>
+    </div>
+
+</div>
+        <!-- Karakter -->
+        <div id="karakter" class="karakter"></div>
+    </div>
+
+    <script>
+    let skor = 0;
+    let posX = 50, posY = 80;
+    const kecepatan = 5;
+
+    const pesanHati = [
+        "Iii masii marahh ya?",
+        "Aku yg salah, maafin aku yaa",
+        "Utututu jangan marah lama-lama",
+        "Kmu tak nak mabar sama aku lagi?",
+        "Nooo jangan pundung lagii"
+    ];
+
+    // Ambil Elemen
+    const elKarakter = document.getElementById('karakter');
+    const elSkor = document.getElementById('skor');
+    const elKotakPesan = document.getElementById('kotakPesan');
+    const elIsiPesan = document.getElementById('isiPesan');
+
+    const layarAwal = document.getElementById('layarAwal');
+    const layarAkhir = document.getElementById('layarAkhir');
+
+    const gameArea = document.getElementById('gameArea');
+
+    // BOX
+    const boxMaaf = document.getElementById('boxMaaf');
+    const boxBaikan = document.getElementById('boxBaikan');
+
+    // BUTTON
+    const btnNo = document.getElementById('btnNo');
+    const btnYes = document.getElementById('btnYes');
+    const pesanYes = document.getElementById('pesanYes');
+
+    // Posisi Awal Karakter
+    function posisiKarakter() {
+        elKarakter.style.left = posX + '%';
+        elKarakter.style.top = posY + '%';
+    }
+
+    posisiKarakter();
+
+    // Mulai Game
+    function mulaiGame() {
+        layarAwal.classList.add('hilang');
+        buatHati();
+    }
+
+    // Bikin Hati Acak
+    function buatHati() {
+        for(let i = 0; i < 5; i++) {
+
+            const hati = document.createElement('div');
+
+            hati.className = 'hati';
+
+            hati.style.left =
+                Math.floor(Math.random() * 88) + '%';
+
+            hati.style.top =
+                Math.floor(Math.random() * 88) + '%';
+
+            hati.onclick = () => ambilHati(hati, i);
+
+            gameArea.appendChild(hati);
+        }
+    }
+
+    // Ambil Hati
+    function ambilHati(el, index) {
+
+        el.remove();
+
+        skor++;
+
+        elSkor.textContent = skor;
+
+        tampilkanPesan(pesanHati[index]);
+
+        if(skor === 5) {
+
+            setTimeout(() => {
+
+                layarAkhir.classList.remove('hilang');
+
+            }, 2000);
+        }
+    }
+
+    // Tampilkan Pesan
+    function tampilkanPesan(teks) {
+
+        elIsiPesan.textContent = teks;
+
+        elKotakPesan.classList.remove(
+            'scale-0',
+            'opacity-0'
+        );
+
+        elKotakPesan.classList.add(
+            'scale-100',
+            'opacity-100'
+        );
+
+        setTimeout(() => {
+
+            elKotakPesan.classList.remove(
+                'scale-100',
+                'opacity-100'
+            );
+
+            elKotakPesan.classList.add(
+                'scale-0',
+                'opacity-0'
+            );
+
+        }, 3000);
+    }
+
+    // NEXT BOX
+    function lanjutBox() {
+
+        boxMaaf.classList.add('hidden');
+
+        boxBaikan.classList.remove('hidden');
+    }
+
+    // TOMBOL NO KABUR
+    btnNo.addEventListener('mouseenter', kabur);
+    btnNo.addEventListener('touchstart', kabur);
+
+    function kabur() {
+
+        const randomX =
+            Math.random() * (window.innerWidth - 120);
+
+        const randomY =
+            Math.random() * (window.innerHeight - 120);
+
+        btnNo.style.position = 'fixed';
+
+        btnNo.style.left = randomX + 'px';
+
+        btnNo.style.top = randomY + 'px';
+    }
+
+    // TOMBOL YES
+    btnYes.addEventListener('click', () => {
+
+        pesanYes.classList.remove('hidden');
+
+        // Hujan hati
+        for(let i = 0; i < 20; i++) {
+
+            const hati = document.createElement('div');
+
+            hati.innerHTML = '🎉';
+
+            hati.style.position = 'fixed';
+
+            hati.style.left =
+                Math.random() * 100 + 'vw';
+
+            hati.style.top = '-20px';
+
+            hati.style.fontSize =
+                (20 + Math.random() * 30) + 'px';
+
+            hati.style.zIndex = '999';
+
+            hati.style.animation =
+                `jatuh ${2 + Math.random() * 3}s linear forwards`;
+
+            document.body.appendChild(hati);
+
+            setTimeout(() => {
+                hati.remove();
+            }, 5000);
+        }
+    });
+
+    // STYLE ANIMASI HUJAN HATI
+    const style = document.createElement('style');
+
+    style.innerHTML = `
+        @keyframes jatuh {
+            to {
+                transform: translateY(110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    `;
+
+    document.head.appendChild(style);
+
+    // Gerak di HP (Geser Jari)
+    let sentuhAwalX, sentuhAwalY;
+
+    gameArea.addEventListener('touchstart', (e) => {
+
+        sentuhAwalX = e.touches[0].clientX;
+
+        sentuhAwalY = e.touches[0].clientY;
+    });
+
+    gameArea.addEventListener('touchmove', (e) => {
+
+        e.preventDefault();
+
+        const sentuhX = e.touches[0].clientX;
+
+        const sentuhY = e.touches[0].clientY;
+
+        const geserX = sentuhX - sentuhAwalX;
+
+        const geserY = sentuhY - sentuhAwalY;
+
+        if(Math.abs(geserX) > 10)
+            posX += geserX * 0.07;
+
+        if(Math.abs(geserY) > 10)
+            posY += geserY * 0.07;
+
+        posX = Math.max(5, Math.min(90, posX));
+
+        posY = Math.max(5, Math.min(90, posY));
+
+        posisiKarakter();
+
+        sentuhAwalX = sentuhX;
+
+        sentuhAwalY = sentuhY;
+    });
+</script>
+</body>
+</html>
