@@ -536,7 +536,51 @@ function lanjutBox() {
     boxMaaf.classList.add('hidden');
     boxBaikan.classList.remove('hidden');
 }
+// =========================
+// 📌 TOMBOL NO KABUR
+// =========================
+btnNo.addEventListener('mouseenter', kabur);
+btnNo.addEventListener('touchstart', kabur);
 
+function kabur() {
+
+    const randomX = Math.random() * (window.innerWidth - 120);
+    const randomY = Math.random() * (window.innerHeight - 120);
+
+    btnNo.style.position = 'fixed';
+    btnNo.style.left = randomX + 'px';
+    btnNo.style.top = randomY + 'px';
+}
+
+
+// =========================
+// 📌 TOMBOL YES (HUJAN EMOJI)
+// =========================
+btnYes.addEventListener('click', () => {
+
+    pesanYes.classList.remove('hidden');
+
+    for (let i = 0; i < 20; i++) {
+
+        const hati = document.createElement('div');
+        hati.innerHTML = '🎉';
+
+        hati.style.position = 'fixed';
+        hati.style.left = Math.random() * 100 + 'vw';
+        hati.style.top = '-20px';
+
+        hati.style.fontSize = (20 + Math.random() * 30) + 'px';
+        hati.style.zIndex = '999';
+
+        hati.style.animation = `jatuh ${2 + Math.random() * 3}s linear forwards`;
+
+        document.body.appendChild(hati);
+
+        setTimeout(() => {
+            hati.remove();
+        }, 5000);
+    }
+});
 
 // =========================
 // 📌 GERAK HP
