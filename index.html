@@ -399,237 +399,175 @@ body::before {
     </div>
 
     <script>
-    let skor = 0;
-    let posX = 50, posY = 80;
-    const kecepatan = 5;
+let skor = 0;
+let posX = 50, posY = 80;
+const kecepatan = 5;
 
-    const pesanHati = [
-        "Iii masii marahh ya?",
-        "Aku yg salah, maafin aku yaa",
-        "Utututu jangan marah lama-lama",
-        "Kmu tak nak mabar sama aku lagi?",
-        "Nooo jangan pundung lagii"
-    ];
+const pesanHati = [
+    "Iii masii marahh ya?",
+    "Aku yg salah, maafin aku yaa",
+    "Utututu jangan marah lama-lama",
+    "Kmu tak nak mabar sama aku lagi?",
+    "Nooo jangan pundung lagii"
+];
 
-    // Ambil Elemen
-    const elKarakter = document.getElementById('karakter');
-    const elSkor = document.getElementById('skor');
-    const elKotakPesan = document.getElementById('kotakPesan');
-    const elIsiPesan = document.getElementById('isiPesan');
+// Ambil Elemen
+const elKarakter = document.getElementById('karakter');
+const elSkor = document.getElementById('skor');
+const elKotakPesan = document.getElementById('kotakPesan');
+const elIsiPesan = document.getElementById('isiPesan');
 
-    const layarAwal = document.getElementById('layarAwal');
-    const layarAkhir = document.getElementById('layarAkhir');
+const layarAwal = document.getElementById('layarAwal');
+const layarAkhir = document.getElementById('layarAkhir');
 
-    const gameArea = document.getElementById('gameArea');
+const gameArea = document.getElementById('gameArea');
 
-    // BOX
-    const boxMaaf = document.getElementById('boxMaaf');
-    const boxBaikan = document.getElementById('boxBaikan');
+// BOX
+const boxMaaf = document.getElementById('boxMaaf');
+const boxBaikan = document.getElementById('boxBaikan');
 
-    // BUTTON
-    const btnNo = document.getElementById('btnNo');
-    const btnYes = document.getElementById('btnYes');
-    const pesanYes = document.getElementById('pesanYes');
+// BUTTON
+const btnNo = document.getElementById('btnNo');
+const btnYes = document.getElementById('btnYes');
+const pesanYes = document.getElementById('pesanYes');
 
-    // Posisi Awal Karakter
-    function posisiKarakter() {
-        elKarakter.style.left = posX + '%';
-        elKarakter.style.top = posY + '%';
+
+// =========================
+// 📌 POSISI KARAKTER
+// =========================
+function posisiKarakter() {
+    elKarakter.style.left = posX + '%';
+    elKarakter.style.top = posY + '%';
+
+    cekTabrakan(); // 🔥 INI YANG BIKIN KARAKTER JADI BERFUNGSI
+}
+
+posisiKarakter();
+
+
+// =========================
+// 📌 MULAI GAME
+// =========================
+function mulaiGame() {
+    layarAwal.classList.add('hilang');
+    buatHati();
+}
+
+
+// =========================
+// 📌 BUAT HATI
+// =========================
+function buatHati() {
+    for (let i = 0; i < 5; i++) {
+
+        const hati = document.createElement('div');
+        hati.className = 'hati';
+
+        hati.style.left = Math.random() * 80 + 10 + '%';
+        hati.style.top = Math.random() * 80 + 10 + '%';
+
+        gameArea.appendChild(hati);
     }
+}
+
+
+// =========================
+// 📌 DETEKSI TABRAKAN KARAKTER vs HATI
+// =========================
+function cekTabrakan() {
+    const karakterRect = elKarakter.getBoundingClientRect();
+    const hatiList = document.querySelectorAll('.hati');
+
+    hatiList.forEach((hati, index) => {
+        const hatiRect = hati.getBoundingClientRect();
+
+        const tabrakan =
+            karakterRect.left < hatiRect.right &&
+            karakterRect.right > hatiRect.left &&
+            karakterRect.top < hatiRect.bottom &&
+            karakterRect.bottom > hatiRect.top;
+
+        if (tabrakan) {
+            ambilHatiAuto(hati, index);
+        }
+    });
+}
+
+
+// =========================
+// 📌 AMBIL HATI (VERSI KARAKTER NYENTUH)
+// =========================
+function ambilHatiAuto(el, index) {
+    el.remove();
+
+    skor++;
+    elSkor.textContent = skor;
+
+    tampilkanPesan(pesanHati[index % pesanHati.length]);
+
+    if (skor === 5) {
+        setTimeout(() => {
+            layarAkhir.classList.remove('hilang');
+        }, 1000);
+    }
+}
+
+
+// =========================
+// 📌 PESAN POPUP
+// =========================
+function tampilkanPesan(teks) {
+    elIsiPesan.textContent = teks;
+
+    elKotakPesan.classList.remove('scale-0', 'opacity-0');
+    elKotakPesan.classList.add('scale-100', 'opacity-100');
+
+    setTimeout(() => {
+        elKotakPesan.classList.remove('scale-100', 'opacity-100');
+        elKotakPesan.classList.add('scale-0', 'opacity-0');
+    }, 2000);
+}
+
+
+// =========================
+// 📌 BOX LANJUT
+// =========================
+function lanjutBox() {
+    boxMaaf.classList.add('hidden');
+    boxBaikan.classList.remove('hidden');
+}
+
+
+// =========================
+// 📌 GERAK HP
+// =========================
+let sentuhAwalX, sentuhAwalY;
+
+gameArea.addEventListener('touchstart', (e) => {
+    sentuhAwalX = e.touches[0].clientX;
+    sentuhAwalY = e.touches[0].clientY;
+});
+
+gameArea.addEventListener('touchmove', (e) => {
+    e.preventDefault();
+
+    const sentuhX = e.touches[0].clientX;
+    const sentuhY = e.touches[0].clientY;
+
+    const geserX = sentuhX - sentuhAwalX;
+    const geserY = sentuhY - sentuhAwalY;
+
+    if (Math.abs(geserX) > 10) posX += geserX * 0.07;
+    if (Math.abs(geserY) > 10) posY += geserY * 0.07;
+
+    posX = Math.max(5, Math.min(90, posX));
+    posY = Math.max(5, Math.min(90, posY));
 
     posisiKarakter();
 
-    // Mulai Game
-    function mulaiGame() {
-        layarAwal.classList.add('hilang');
-        buatHati();
-    }
-
-    // Bikin Hati Acak
-    function buatHati() {
-        for(let i = 0; i < 5; i++) {
-
-            const hati = document.createElement('div');
-
-            hati.className = 'hati';
-
-            hati.style.left =
-                Math.floor(Math.random() * 88) + '%';
-
-            hati.style.top =
-                Math.floor(Math.random() * 88) + '%';
-
-            hati.onclick = () => ambilHati(hati, i);
-
-            gameArea.appendChild(hati);
-        }
-    }
-
-    // Ambil Hati
-    function ambilHati(el, index) {
-
-        el.remove();
-
-        skor++;
-
-        elSkor.textContent = skor;
-
-        tampilkanPesan(pesanHati[index]);
-
-        if(skor === 5) {
-
-            setTimeout(() => {
-
-                layarAkhir.classList.remove('hilang');
-
-            }, 2000);
-        }
-    }
-
-    // Tampilkan Pesan
-    function tampilkanPesan(teks) {
-
-        elIsiPesan.textContent = teks;
-
-        elKotakPesan.classList.remove(
-            'scale-0',
-            'opacity-0'
-        );
-
-        elKotakPesan.classList.add(
-            'scale-100',
-            'opacity-100'
-        );
-
-        setTimeout(() => {
-
-            elKotakPesan.classList.remove(
-                'scale-100',
-                'opacity-100'
-            );
-
-            elKotakPesan.classList.add(
-                'scale-0',
-                'opacity-0'
-            );
-
-        }, 3000);
-    }
-
-    // NEXT BOX
-    function lanjutBox() {
-
-        boxMaaf.classList.add('hidden');
-
-        boxBaikan.classList.remove('hidden');
-    }
-
-    // TOMBOL NO KABUR
-    btnNo.addEventListener('mouseenter', kabur);
-    btnNo.addEventListener('touchstart', kabur);
-
-    function kabur() {
-
-        const randomX =
-            Math.random() * (window.innerWidth - 120);
-
-        const randomY =
-            Math.random() * (window.innerHeight - 120);
-
-        btnNo.style.position = 'fixed';
-
-        btnNo.style.left = randomX + 'px';
-
-        btnNo.style.top = randomY + 'px';
-    }
-
-    // TOMBOL YES
-    btnYes.addEventListener('click', () => {
-
-        pesanYes.classList.remove('hidden');
-
-        // Hujan hati
-        for(let i = 0; i < 20; i++) {
-
-            const hati = document.createElement('div');
-
-            hati.innerHTML = '🎉';
-
-            hati.style.position = 'fixed';
-
-            hati.style.left =
-                Math.random() * 100 + 'vw';
-
-            hati.style.top = '-20px';
-
-            hati.style.fontSize =
-                (20 + Math.random() * 30) + 'px';
-
-            hati.style.zIndex = '999';
-
-            hati.style.animation =
-                `jatuh ${2 + Math.random() * 3}s linear forwards`;
-
-            document.body.appendChild(hati);
-
-            setTimeout(() => {
-                hati.remove();
-            }, 5000);
-        }
-    });
-
-    // STYLE ANIMASI HUJAN HATI
-    const style = document.createElement('style');
-
-    style.innerHTML = `
-        @keyframes jatuh {
-            to {
-                transform: translateY(110vh) rotate(360deg);
-                opacity: 0;
-            }
-        }
-    `;
-
-    document.head.appendChild(style);
-
-    // Gerak di HP (Geser Jari)
-    let sentuhAwalX, sentuhAwalY;
-
-    gameArea.addEventListener('touchstart', (e) => {
-
-        sentuhAwalX = e.touches[0].clientX;
-
-        sentuhAwalY = e.touches[0].clientY;
-    });
-
-    gameArea.addEventListener('touchmove', (e) => {
-
-        e.preventDefault();
-
-        const sentuhX = e.touches[0].clientX;
-
-        const sentuhY = e.touches[0].clientY;
-
-        const geserX = sentuhX - sentuhAwalX;
-
-        const geserY = sentuhY - sentuhAwalY;
-
-        if(Math.abs(geserX) > 10)
-            posX += geserX * 0.07;
-
-        if(Math.abs(geserY) > 10)
-            posY += geserY * 0.07;
-
-        posX = Math.max(5, Math.min(90, posX));
-
-        posY = Math.max(5, Math.min(90, posY));
-
-        posisiKarakter();
-
-        sentuhAwalX = sentuhX;
-
-        sentuhAwalY = sentuhY;
-    });
+    sentuhAwalX = sentuhX;
+    sentuhAwalY = sentuhY;
+});
 </script>
 </body>
 </html>
