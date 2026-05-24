@@ -523,7 +523,13 @@ function ambilHatiAuto(el, index) {
     skor++;
     elSkor.textContent = skor;
 
-    tampilkanPesan(pesanHati[index % pesanHati.length]);
+    tampilkanPesan(pesanHati[pesanIndex]);
+
+    pesanIndex++;
+
+    if (pesanIndex >= pesanHati.length) {
+    pesanIndex = 0;
+    }
 
     if (skor === 5) {
         setTimeout(() => {
